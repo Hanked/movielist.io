@@ -1,17 +1,20 @@
 import VueRouter from 'vue-router';
 
-let routes = [
-  {
-    path: '/members',
-    component: require('./views/members')
-  },
-  {
-    path: '/profile',
-    component: require('./views/profile')
-  }
-];
+import Members from './views/Members'
+import Profile from './views/Profile'
 
 export default new VueRouter({
-  routes,
+  routes: [
+    {
+      path: '/members',
+      component: Members
+    },
+    {
+      path: '/profile',
+      component: Profile
+    }
+  ],
+
+  mode: 'history',
   linkActiveClass: 'is-active'
 });
