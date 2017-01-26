@@ -1,6 +1,6 @@
 <template>
   <div class="profile">
-    <h1>{{ title }}</h1>
+
   </div>
 </template>
 
@@ -10,7 +10,7 @@ export default {
   name: 'profile',
   data () {
     return {
-      title: 'Profile Page'
+
     }
   }
 }
@@ -18,7 +18,5 @@ export default {
 
 
 <style scoped>
-h1 {
-  color: green;
-}
+
 </style>

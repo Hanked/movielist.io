@@ -14,6 +14,11 @@ export default {
   components: {
     Navigation,
     Container
+  },
+  data() {
+    return {
+      
+    }
   }
 }
 </script>

@@ -6,12 +6,16 @@ import Profile from './views/Profile'
 export default new VueRouter({
   routes: [
     {
+      name: 'Members',
       path: '/members',
-      component: Members
+      component: Members,
+      props: true
     },
     {
-      path: '/profile',
-      component: Profile
+      name: 'Profile',
+      path: '/profile/:userId',
+      component: Profile,
+      props: true
     }
   ],
 
