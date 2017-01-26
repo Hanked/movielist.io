@@ -13,7 +13,7 @@
       </div>
 
       <div class="nav-center">
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="/">
           <span class="icon">
             <i class="fa fa-film"></i>
           </span>
@@ -112,7 +112,11 @@ export default {
         x => x.name === this.$route.name
       );
 
-      this.navLeft[activeItemIndex].active = true;
+      // handle root domain like this for now
+      if (activeItemIndex !== -1) {
+        this.navLeft[activeItemIndex].active = true;
+      }
+
       return this.navLeft;
     },
 
