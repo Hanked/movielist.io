@@ -1,7 +1,8 @@
 import * as types from './types';
 
 export default {
-    [types.MUTATE_UPDATE_VALUE]: (state, payload) => {
-        state.value = payload;
+    [types.MUTATE_GREETING]: (state, payload) => {
+      console.log('MUTATE_GREETING', state, payload)
+      state.greeting = `Hello, ${payload}`;
     }
 };

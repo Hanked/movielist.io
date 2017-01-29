@@ -1,8 +1,7 @@
 <template>
   <div class="members">
-    <button class="btn btn-primary" @click="increment(1)">Increment</button>
-    <button class="btn btn-primary" @click="decrement(5)">Decrement</button>
-    <p>count is {{ counter }}</p>
+    <input type="text" v-model="name" @keyup="greeting(name)">
+    <p>{{ customGreeting }}</p>
   </div>
 </template>
 
@@ -16,20 +15,19 @@ export default {
   name: 'members',
   data () {
     return {
-
+      name: 'World'
     }
   },
 
   methods: {
     ...mapActions({
-      increment: types.COUNTER_INCREMENT,
-      decrement: types.COUNTER_DECREMENT
+      greeting: types.UPDATE_GREETING
     })
   },
 
   computed: {
     ...mapGetters({
-      counter: types.DOUBLE_COUNTER
+      customGreeting: types.CUSTOM_GREETING
     })
   }
 }

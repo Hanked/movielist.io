@@ -1,7 +1,8 @@
 import * as types from './types';
 
 export default {
-    [types.UPDATE_VALUE]: ({commit}, payload) => {
-        commit(types.MUTATE_UPDATE_VALUE, payload)
+    [types.UPDATE_GREETING]: ({commit}, payload) => {
+        console.log('UPDATE_GREETING', payload)
+        commit(types.MUTATE_GREETING, payload)
     }
 };
