@@ -15,7 +15,6 @@
     "glob": "^7.0.0",
     "hapi": "^13.0.0",
     "hapi-auth-jwt": "^4.0.0",
-    "identicon.js": "^2.0.0",
     "inert": "^4.0.4",
     "joi": "^8.0.4",
     "joi-objectid": "^2.0.0",
