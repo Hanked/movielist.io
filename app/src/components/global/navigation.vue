@@ -79,7 +79,7 @@ export default {
         },
         {
           name: "Logout",
-          url: "/logout",
+          url: "/members",
           activeSession: true
         }
       ],
@@ -89,7 +89,7 @@ export default {
 
   methods: {
     navItemClickHandler(navItemName, e) {
-      if (navItemName === 'logout') {
+      if (navItemName === 'Logout') {
         e.preventDefault();
         this.killSession();
       }
