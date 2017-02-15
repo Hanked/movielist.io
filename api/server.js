@@ -34,7 +34,7 @@ server.register([hapiAuthJwt, inert], (err) => {
     config: {
       handler: {
         directory: {
-          path: "./assets",
+          path: "./../app/src/assets/images",
           listing: false,
           index: false
         }
