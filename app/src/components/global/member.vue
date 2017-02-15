@@ -1,0 +1,184 @@
+<template>
+  <div class="member">
+
+    <div class="card is-fullwidth">
+        <header class="card-header" :style="heroBackgroundCssProp">
+          <a v-if="canFollow" @click="followMemberToggle(memberdata)" class="button follow is-small is-primary">
+            {{ followBtnValue }}
+          </a>
+        </header>
+        <div class="card-content">
+          <a class="card-avatar">
+            <img :src="memberdata.profileImageUrl" class="card-avatar-img">
+          </a>
+
+          <div class="card-user">
+            <div class="card-user-name">
+              <a href="#">{{ memberdata.fullName }}</a>
+            </div>
+            <span>
+              <a :href="profileUrl">
+                <span>{{ memberdata.username }}</span>
+              </a>
+            </span>
+          </div>
+
+          <div class="card-stats">
+            <ul class="card-stats-list">
+              <li class="card-stats-item">
+                <a href="#">
+                  <span class="card-stats-key">Watched</span>
+                  <span class="card-stats-val">{{ counts.watched }}</span>
+                </a>
+              </li>
+              <li class="card-stats-item">
+                <a href="#">
+                  <span class="card-stats-key">Movie list</span>
+                  <span class="card-stats-val">{{ counts.unwatched }}</span>
+                </a>
+              </li>
+              <li class="card-stats-item">
+                <a href="">
+                  <span class="card-stats-key">Following</span>
+                  <span class="card-stats-val">{{ counts.following }}</span>
+                </a>
+              </li>
+              <li class="card-stats-item">
+                <a href="#">
+                  <span class="card-stats-key">Followers</span>
+                  <span class="card-stats-val">{{ counts.followers }}</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</template>
+
+
+<script>
+export default {
+  name: 'member',
+
+  props: [
+    'memberdata',
+    'index',
+    'memberFollows'
+  ],
+
+  data() {
+    return {
+      counts: {
+        watched: 0,
+        unwatched: 0,
+        following: 0,
+        followers: 0
+      },
+      following: false,
+      canFollow: true
+    }
+  },
+
+  watch: {
+    memberFollows() {
+      this.isFollowing();
+    }
+  },
+
+  methods: {
+    followMemberToggle(memberData) {
+      if (this.following == false) {
+        this.followMember(memberData);
+      } else {
+        this.unfollowMember(memberData);
+      }
+    },
+
+    followMember(memberData) {
+      let token = localStorage.getItem('token');
+      let userId = localStorage.getItem('userId')
+
+      if (!token || !userId) { return };
+
+      this.$http.post(`http://localhost:3000/api/follows?follower_id=${userId}`,
+        {
+          followee_id: memberData._id,
+        },
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(function(res) {
+          this.followMemberSuccess(res)
+        })
+        .catch(function(res) {
+          console.log('failed to follow member');
+        })
+    },
+    followMemberSuccess() {
+      this.following = true;
+    },
+
+    unfollowMember(memberData) {
+      let token = localStorage.getItem('token');
+      let userId = localStorage.getItem('userId')
+
+      if (!token || !userId) { return };
+
+      this.$http.delete(`http://localhost:3000/api/follows?follower_id=${userId}&followee_id=${memberData._id}`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        .then(function(res) {
+          this.unfollowMemberSuccess(res)
+        })
+        .catch(function(res) {
+          console.log('failed to unfollow member');
+        })
+    },
+    unfollowMemberSuccess() {
+      this.following = false;
+    },
+
+    isFollowing() {
+      // prevent logged in user from following themselves
+      if (this.memberdata._id === localStorage.getItem('userId')) {
+        this.canFollow = false;
+      }
+      // already following this user?
+      else if (this.memberFollows.indexOf(this.memberdata._id) > -1) {
+        this.following = true;
+      }
+
+    }
+  },
+
+  computed: {
+    heroBackgroundCssProp() {
+      let prop = 'none';
+      if (this.memberdata.heroImageUrl) {
+        prop = `url("${this.memberdata.heroImageUrl}")`;
+      }
+      return 'background-image: ' + prop;
+    },
+
+    profileUrl() {
+      return `/profile/${this.memberdata.username}`
+    },
+
+    followBtnValue() {
+      return this.following ? 'Unfollow' : 'Follow';
+    }
+  }
+}
+</script>
+
+
+<style scoped>
+
+</style>
