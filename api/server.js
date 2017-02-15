@@ -43,51 +43,6 @@ server.register([hapiAuthJwt, inert], (err) => {
     }
   });
 
-  // views
-  server.route({
-    method: 'GET',
-    path: '/login',
-    config: {
-      handler: (request, reply) => {
-        reply.file('./views/login.html');
-      },
-      auth: false
-    }
-  });
-
-  server.route({
-    method: 'GET',
-    path: '/register',
-    config: {
-      handler: (request, reply) => {
-        reply.file('./views/register.html');
-      },
-      auth: false
-    }
-  });
-
-  server.route({
-    method: 'GET',
-    path: '/members',
-    config: {
-      handler: (request, reply) => {
-        reply.file('./views/members.html');
-      },
-      auth: false
-    }
-  });
-
-  server.route({
-    method: 'GET',
-    path: '/profile/{username}',
-    config: {
-      handler: (request, reply) => {
-        reply.file('./views/profile.html');
-      },
-      auth: false
-    }
-  });
-
   // Look through the routes in
   // all the subdirectories of API
   // and create a new route for each
