@@ -1,5 +1,5 @@
 <template>
-  <div class="members">
+  <div class="vuexexample">
     <input type="text" v-model="name" @keyup="greeting(name)">
     <p>{{ customGreeting }}</p>
   </div>
@@ -12,7 +12,7 @@ import {mapActions} from 'vuex';
 import * as types from '../store/types';
 
 export default {
-  name: 'members',
+  name: 'vuexexample',
   data () {
     return {
       name: 'World'
