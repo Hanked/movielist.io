@@ -8,15 +8,13 @@
 <script>
 import Navigation from './components/global/navigation';
 import Container from './components/global/container';
-import Member from './components/global/member';
 
 export default {
   name: 'app',
 
   components: {
     Navigation,
-    Container,
-    Member
+    Container
   },
 
   data() {
@@ -28,11 +26,16 @@ export default {
 </script>
 
 <style>
+  html {
+    height: 100%;
+    background: #f5f8fa;
+  }
   body {
+    height: 100%;
     font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
   }
 
-  body,
+  html,
   .section.main,
   .hero-body {
     background: #f5f8fa;
