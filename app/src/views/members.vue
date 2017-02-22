@@ -56,24 +56,12 @@ export default {
   },
 
   created() {
-    this.fetchMembers();
-    this.fetchCurrentUser();
+    // this.fetchMembers();
+    this.$store.dispatch('INIT_MEMBERS');
+    // this.fetchCurrentUser();
   },
 
   methods: {
-    fetchMembers() {
-      this.$http.get('http://localhost:3000/api/users')
-        .then(function(res) {
-          this.fetchMemebersSuccess(res)
-        })
-        .catch(function(res) {
-          console.log('failed to fetch members');
-        })
-    },
-    fetchMemebersSuccess(res) {
-      this.members = res.body;
-    },
-
     fetchCurrentUser() {
       let token = localStorage.getItem('token');
 
@@ -117,27 +105,8 @@ export default {
   },
 
   computed: {
-    filteredMembers() {
-      let self = this;
-      let matchableProps = ['username', 'fullName'];
-      let results = [];
-
-      // for each of the member properties we want to search against
-      matchableProps.forEach((matchableProp, i) => {
-        // store the results in a temporary array
-        let tempArr = self.members.filter((member) => {
-          // convert the member property value and the search string to lowercase
-          // for case-insensitive comparison
-          return member[matchableProp].toLowerCase().indexOf(self.memberSearchTerm.toLowerCase()) !== -1
-        });
-        // merge the new matches in to the cumulative results array
-        // removing any duplicates at the same time
-        results = results.concat(tempArr.filter((member) => {
-          return results.indexOf(member) < 0;
-        }));
-      });
-
-      return results;
+    filteredMembers(){
+      return this.$store.getters.FILTERED_MEMBERS(this.memberSearchTerm)
     }
   }
 }
