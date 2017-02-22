@@ -45,7 +45,6 @@ export default {
   data() {
     return {
       currentUser: {},
-      members: [],
       follows: [],
       memberSearchTerm: '',
       error: {
@@ -56,7 +55,6 @@ export default {
   },
 
   created() {
-    // this.fetchMembers();
     this.$store.dispatch('INIT_MEMBERS');
     // this.fetchCurrentUser();
   },
