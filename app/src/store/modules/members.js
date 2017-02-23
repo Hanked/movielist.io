@@ -5,10 +5,10 @@ const state = {
 };
 
 const getters = {
-  'MEMBERS': state => {
+  MEMBERS: state => {
     return state.members;
   },
-  'FILTERED_MEMBERS': (state, getters) => (searchTerm) => {
+  FILTERED_MEMBERS: (state, getters) => (searchTerm) => {
     let matchableProps = ['username', 'fullName'];
     let results = [];
 
@@ -31,13 +31,13 @@ const getters = {
 };
 
 const mutations = {
-  'SET_MEMBERS': (state, members) => {
+  SET_MEMBERS: (state, members) => {
     state.members = members;
   }
 };
 
 const actions = {
-  'INIT_MEMBERS': ({ commit }) => {
+  INIT_MEMBERS: ({ commit }) => {
     Vue.http.get('http://localhost:3000/api/users')
       .then(function(res) {
         commit('SET_MEMBERS', res.body);

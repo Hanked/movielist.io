@@ -6,25 +6,25 @@ const state = {
 };
 
 const getters = {
-  'USER': state => {
+  USER: state => {
     return state.user;
   },
-  'FOLLOWS': state => {
+  FOLLOWS: state => {
     return state.follows;
   }
 };
 
 const mutations = {
-  'SET_USER': (state, user) => {
+  SET_USER: (state, user) => {
     state.user = user;
   },
-  'SET_FOLLOWS': (state, follows) => {
+  SET_FOLLOWS: (state, follows) => {
     state.follows = follows;
   }
 };
 
 const actions = {
-  'INIT_USER': ({ commit, dispatch }) => {
+  INIT_USER: ({ commit, dispatch }) => {
     const token = localStorage.getItem('token');
     if (!token) { return }
 
@@ -42,7 +42,7 @@ const actions = {
     })
   },
 
-  'FETCH_FOLLOWS': ({ commit }) => {
+  FETCH_FOLLOWS: ({ commit }) => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     if (!token) { return }
