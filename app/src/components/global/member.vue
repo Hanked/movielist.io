@@ -90,59 +90,12 @@ export default {
   methods: {
     followMemberToggle(memberData) {
       if (this.following == false) {
-        this.followMember(memberData);
+        this.$store.dispatch('FOLLOW_MEMBER', memberData)
+        this.following = true;
       } else {
-        this.unfollowMember(memberData);
+        this.$store.dispatch('UNFOLLOW_MEMBER', memberData)
+        this.following = false;
       }
-    },
-
-    followMember(memberData) {
-      let token = localStorage.getItem('token');
-      let userId = localStorage.getItem('userId')
-
-      if (!token || !userId) { return };
-
-      this.$http.post(`http://localhost:3000/api/follows?follower_id=${userId}`,
-        {
-          followee_id: memberData._id,
-        },
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        .then(function(res) {
-          this.followMemberSuccess(res)
-        })
-        .catch(function(res) {
-          console.log('failed to follow member');
-        })
-    },
-    followMemberSuccess() {
-      this.following = true;
-    },
-
-    unfollowMember(memberData) {
-      let token = localStorage.getItem('token');
-      let userId = localStorage.getItem('userId')
-
-      if (!token || !userId) { return };
-
-      this.$http.delete(`http://localhost:3000/api/follows?follower_id=${userId}&followee_id=${memberData._id}`,
-        {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        })
-        .then(function(res) {
-          this.unfollowMemberSuccess(res)
-        })
-        .catch(function(res) {
-          console.log('failed to unfollow member');
-        })
-    },
-    unfollowMemberSuccess() {
-      this.following = false;
     },
 
     isFollowing() {
@@ -151,10 +104,9 @@ export default {
         this.canFollow = false;
       }
       // already following this user?
-      else if (this.memberFollows.indexOf(this.memberdata._id) > -1) {
+      else if (this.$store.getters.FOLLOWS.indexOf(this.memberdata._id) > -1) {
         this.following = true;
       }
-
     }
   },
 

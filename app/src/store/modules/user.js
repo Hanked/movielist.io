@@ -20,6 +20,13 @@ const mutations = {
   },
   SET_FOLLOWS: (state, follows) => {
     state.follows = follows;
+  },
+  ADD_FOLLOW: (state, follow) => {
+    state.follows.push(follow);
+  },
+  REMOVE_FOLLOW: (state, follow) => {
+    const updatedFollowsArr = state.follows.filter(e => e !== follow)
+    state.follows = updatedFollowsArr;
   }
 };
 
@@ -58,6 +65,47 @@ const actions = {
     .catch(function(res) {
       console.log('failed to fetch follows');
     })
+  },
+
+  FOLLOW_MEMBER: ({ commit }, memberData) => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId')
+    if (!token || !userId) { return };
+
+    Vue.http.post(`http://localhost:3000/api/follows?follower_id=${userId}`,
+      {
+        followee_id: memberData._id,
+      },
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(function(res) {
+        commit('ADD_FOLLOW', res.body.followee_id);
+      })
+      .catch(function(res) {
+        console.log('failed to follow member');
+      })
+  },
+
+  UNFOLLOW_MEMBER: ({ commit, dispatch }, memberData) => {
+    let token = localStorage.getItem('token');
+    let userId = localStorage.getItem('userId')
+    if (!token || !userId) { return };
+
+    Vue.http.delete(`http://localhost:3000/api/follows?follower_id=${userId}&followee_id=${memberData._id}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(function(res) {
+        commit('REMOVE_FOLLOW', res.body.followee_id);
+      })
+      .catch(function(res) {
+        console.log('failed to unfollow member', res);
+      })
   }
 };
 
