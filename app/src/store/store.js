@@ -1,21 +1,16 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import counter from './modules/counter';
+import VueResource from 'vue-resource';
 
-import actions from './actions';
-import getters from './getters';
-import mutations from './mutations';
+import members from './modules/members';
+import user from './modules/user';
 
 Vue.use(Vuex);
+Vue.use(VueResource);
 
 export const store = new Vuex.Store({
-    state: {
-        greeting: 'Hello, World'
-    },
-    getters,
-    mutations,
-    actions,
-    modules: {
-        counter
-    }
+  modules: {
+    members,
+    user
+  }
 });

@@ -20,7 +20,8 @@ module.exports = {
           }
 
           res({
-            message: `stopped following user ${req.query.followee_id}`
+            follower_id: req.query.follower_id,
+            followee_id: req.query.followee_id
           })
           .code(201);
         });
