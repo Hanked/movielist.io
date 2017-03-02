@@ -45,7 +45,7 @@ const actions = {
       dispatch('FETCH_FOLLOWS');
     })
     .catch(function(res, err) {
-      console.log('failed to fetch current user');
+      console.log('failed to fetch current user', res);
     })
   },
 

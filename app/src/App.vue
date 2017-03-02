@@ -17,10 +17,8 @@ export default {
     Container
   },
 
-  data() {
-    return {
-
-    }
+  created() {
+    this.$store.dispatch('INIT_USER');
   }
 }
 </script>

@@ -48,15 +48,14 @@ export default {
 
   created() {
     this.$store.dispatch('INIT_MEMBERS');
-    this.$store.dispatch('INIT_USER');
   },
 
   computed: {
     filteredMembers() {
-      return this.$store.getters.FILTERED_MEMBERS(this.memberSearchTerm)
+      return this.$store.getters.FILTERED_MEMBERS(this.memberSearchTerm);
     },
     follows() {
-      return this.$store.getters.FOLLOWS
+      return this.$store.getters.FOLLOWS;
     }
   }
 }
