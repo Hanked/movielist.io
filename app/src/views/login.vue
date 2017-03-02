@@ -11,8 +11,8 @@
                   Login
                 </h1>
                 <div class="box">
-                  <div v-show="error.isVisible" class="notification is-danger">
-                    {{ error.message }}
+                  <div v-show="errorIsVisible" class="notification is-danger">
+                    {{ errorMsg }}
                   </div>
                   <label class="label">Email</label>
                   <p class="control">
@@ -49,55 +49,29 @@ export default {
   data () {
     return {
       email: '',
-      password: '',
-      error: {
-        isVisible: false,
-        message: ''
-      }
+      password: ''
     }
   },
 
   methods: {
     login() {
-      this.$http.post('http://localhost:3000/api/users/authenticate',
-        {
-          email: this.email,
-          password: this.password
-        })
-        .then(function(res) {
-          this.handleSuccessResponse(res)
-        })
-        .catch(function(res) {
-          this.handleErrorResponse(res)
-        })
+      this.$store.dispatch('LOGIN', {
+        email: this.email,
+        password: this.password
+      })
     },
-
-    handleSuccessResponse(res) {
-      this.error.isVisible = false;
-      localStorage.setItem('token', res.body.id_token);
-      localStorage.setItem('userId', res.body.user_id);
-      localStorage.setItem('username', res.body.username);
-      window.location.href = `/profile/${res.body.username}`
-    },
-
-    handleErrorResponse(res) {
-      this.error.isVisible = true;
-
-      if (res.status === 401) {
-        this.error.message = res.body.message;
-      } else {
-        this.error.message = 'Please enter a password and a valid email address';
-      }
-    },
-
     cancel() {
-      window.location.href = '/members'
+      window.location.href = '/members';
+    }
+  },
+
+  computed: {
+    errorMsg() {
+      return this.$store.getters.ERROR_MSG;
+    },
+    errorIsVisible() {
+      return this.$store.getters.ERROR_IS_VISIBLE;
     }
   }
 }
 </script>
-
-
-<style scoped>
-
-</style>
