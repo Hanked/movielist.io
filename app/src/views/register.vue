@@ -11,8 +11,8 @@
                     Create an account
                   </h1>
                   <div class="box">
-                    <div v-show="error.isVisible" class="notification is-danger">
-                      {{ error.message }}
+                    <div v-show="errorIsVisible" class="notification is-danger">
+                      {{ errorMsg }}
                     </div>
                     <label class="label">Full Name</label>
                     <p class="control">
@@ -61,63 +61,41 @@
 export default {
   name: 'register',
 
-  data () {
+  data() {
     return {
       fullName: '',
       username: '',
       email: '',
       password: '',
-      confirmPassword: '',
-      error: {
-        isVisible: false,
-        message: ''
-      }
+      confirmPassword: ''
     }
   },
 
   methods: {
     register() {
+      // validate for empty fields
+      let fields = this._data;
+
+      for (var fieldName in fields) {
+        if (!fields[fieldName]) {
+          this.$store.commit('ERROR_IS_VISIBLE', true);
+          this.$store.commit('SET_ERROR_MSG', 'Please complete all fields');
+          return;
+        }
+      }
+
       if (!this.passwordsMatch()) {
-        this.error.isVisible = true;
-        this.error.message = 'Your passwords do not match, please try again';
+        this.$store.commit('ERROR_IS_VISIBLE', true);
+        this.$store.commit('SET_ERROR_MSG', 'Your passwords do not match, please try again');
         return;
       }
 
-      this.createUserApiRequest();
-    },
-
-    createUserApiRequest() {
-      this.$http.post('http://localhost:3000/api/users',
-        {
-          fullName: this.fullName,
-          username: this.username,
-          email: this.email,
-          password: this.password
-        })
-        .then(function(res) {
-          this.handleSuccessResponse(res)
-        })
-        .catch(function(res) {
-          this.handleErrorResponse(res)
-        })
-    },
-
-    handleSuccessResponse(res) {
-      this.error.isVisible = false;
-      localStorage.setItem('token', res.body.id_token);
-      localStorage.setItem('userId', res.body.user_id);
-      localStorage.setItem('username', res.body.username);
-      window.location.href = `/profile/${res.body.username}`
-    },
-
-    handleErrorResponse(res) {
-      this.error.isVisible = true;
-
-      if (res.status === 401) {
-        this.error.message = res.body.message;
-      } else {
-        this.error.message = 'Please complete all fields and check that your details are valid';
-      }
+      this.$store.dispatch('REGISTER', {
+        fullName: this.fullName,
+        username: this.username,
+        email: this.email,
+        password: this.password
+      })
     },
 
     cancel() {
@@ -127,11 +105,15 @@ export default {
     passwordsMatch() {
       return this.password == this.confirmPassword;
     }
+  },
+
+  computed: {
+    errorMsg() {
+      return this.$store.getters.ERROR_MSG;
+    },
+    errorIsVisible() {
+      return this.$store.getters.ERROR_IS_VISIBLE;
+    }
   }
 }
 </script>
-
-
-<style scoped>
-
-</style>
