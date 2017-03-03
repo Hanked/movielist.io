@@ -1,6 +1,7 @@
 import Vue from 'vue';
 
 const state = {
+  follows: [],
   userFollows: {
     followees: [],
     followers: []
@@ -17,6 +18,9 @@ const getters = {
 };
 
 const mutations = {
+  SET_FOLLOWS: (state, follows) => {
+    state.follows = follows;
+  },
   SET_FOLLOWEES: (state, followees) => {
     state.userFollows.followees = followees;
   },
@@ -33,8 +37,14 @@ const mutations = {
 };
 
 const actions = {
-  INIT_FOLLOWS: ({ commit }, memberId) => {
-
+  INIT_FOLLOWS: ({ commit }) => {
+    Vue.http.get('http://localhost:3000/api/follows')
+      .then(function(res) {
+        commit('SET_FOLLOWS', res.body);
+      })
+      .catch(function(res) {
+        console.log('failed to fetch follows');
+      })
   },
 
   FETCH_FOLLOWEES: ({ commit }) => {

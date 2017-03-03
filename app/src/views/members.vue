@@ -48,7 +48,7 @@ export default {
 
   created() {
     this.$store.dispatch('INIT_MEMBERS');
-    // this.$store.dispatch('INIT_FOLLOWS');
+    this.$store.dispatch('INIT_FOLLOWS');
   },
 
   computed: {
