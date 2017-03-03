@@ -55,7 +55,7 @@ export default {
       return this.$store.getters.FILTERED_MEMBERS(this.memberSearchTerm);
     },
     follows() {
-      return this.$store.getters.FOLLOWS;
+      return this.$store.getters.FOLLOWEES;
     }
   }
 }

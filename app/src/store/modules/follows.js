@@ -8,26 +8,26 @@ const state = {
 };
 
 const getters = {
-  FOLLOWS: state => {
+  FOLLOWEES: state => {
     return state.userFollows.followees;
   }
 };
 
 const mutations = {
-  SET_FOLLOWS: (state, follows) => {
-    state.userFollows.followees = follows;
+  SET_FOLLOWEES: (state, followees) => {
+    state.userFollows.followees = followees;
   },
-  ADD_FOLLOW: (state, follow) => {
-    state.userFollows.followees.push(follow);
+  ADD_FOLLOWEE: (state, followee) => {
+    state.userFollows.followees.push(followee);
   },
-  REMOVE_FOLLOW: (state, follow) => {
-    const updatedFollowsArr = state.userFollows.followees.filter(e => e !== follow)
+  REMOVE_FOLLOWEE: (state, followee) => {
+    const updatedFollowsArr = state.userFollows.followees.filter(e => e !== followee)
     state.userFollows.followees = updatedFollowsArr;
   }
 };
 
 const actions = {
-  FETCH_FOLLOWS: ({ commit }) => {
+  FETCH_FOLLOWEES: ({ commit }) => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     if (!token) { return }
@@ -38,10 +38,10 @@ const actions = {
       }
     })
     .then(function(res) {
-      commit('SET_FOLLOWS', res.body);
+      commit('SET_FOLLOWEES', res.body);
     })
     .catch(function(res) {
-      console.log('failed to fetch follows');
+      console.log('failed to fetch followees');
     })
   },
 
@@ -60,7 +60,7 @@ const actions = {
         }
       })
       .then(function(res) {
-        commit('ADD_FOLLOW', res.body.followee_id);
+        commit('ADD_FOLLOWEE', res.body.followee_id);
       })
       .catch(function(res) {
         console.log('failed to follow member');
@@ -79,7 +79,7 @@ const actions = {
         }
       })
       .then(function(res) {
-        commit('REMOVE_FOLLOW', res.body.followee_id);
+        commit('REMOVE_FOLLOWEE', res.body.followee_id);
       })
       .catch(function(res) {
         console.log('failed to unfollow member', res);
