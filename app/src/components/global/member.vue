@@ -110,7 +110,7 @@ export default {
         this.canFollow = false;
       }
       // already following this user?
-      else if (this.$store.getters.FOLLOWS.indexOf(this.memberData._id) > -1) {
+      else if (this.$store.getters.USER_FOLLOWS.indexOf(this.memberData._id) > -1) {
         this.following = true;
       }
     },
