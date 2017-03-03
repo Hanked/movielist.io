@@ -33,22 +33,22 @@ const mutations = {
 };
 
 const actions = {
+  INIT_FOLLOWS: ({ commit }, memberId) => {
+
+  },
+
   FETCH_FOLLOWEES: ({ commit }) => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     if (!token) { return }
 
-    Vue.http.get(`http://localhost:3000/api/followees/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(function(res) {
-      commit('SET_FOLLOWEES', res.body);
-    })
-    .catch(function(res) {
-      console.log('failed to fetch followees');
-    })
+    Vue.http.get(`http://localhost:3000/api/followees/${userId}`)
+      .then(function(res) {
+        commit('SET_FOLLOWEES', res.body);
+      })
+      .catch(function(res) {
+        console.log('failed to fetch followees');
+      })
   },
 
   FETCH_FOLLOWERS: ({ commit }) => {
@@ -56,17 +56,13 @@ const actions = {
     const userId = localStorage.getItem('userId');
     if (!token) { return }
 
-    Vue.http.get(`http://localhost:3000/api/followers/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(function(res) {
-      commit('SET_FOLLOWERS', res.body);
-    })
-    .catch(function(res) {
-      console.log('failed to fetch followers');
-    })
+    Vue.http.get(`http://localhost:3000/api/followers/${userId}`)
+      .then(function(res) {
+        commit('SET_FOLLOWERS', res.body);
+      })
+      .catch(function(res) {
+        console.log('failed to fetch followers');
+      })
   },
 
   FOLLOW_MEMBER: ({ commit }, memberData) => {

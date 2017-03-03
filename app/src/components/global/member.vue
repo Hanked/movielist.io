@@ -40,13 +40,13 @@
               <li class="card-stats-item">
                 <a href="">
                   <span class="card-stats-key">Following</span>
-                  <span class="card-stats-val">{{ counts.following }}</span>
+                  <span class="card-stats-val">{{ followingCount }}</span>
                 </a>
               </li>
               <li class="card-stats-item">
                 <a href="#">
                   <span class="card-stats-key">Followers</span>
-                  <span class="card-stats-val">{{ counts.followers }}</span>
+                  <span class="card-stats-val">{{ followersCount }}</span>
                 </a>
               </li>
             </ul>
@@ -72,9 +72,7 @@ export default {
     return {
       counts: {
         watched: 0,
-        unwatched: 0,
-        following: 0,
-        followers: 0
+        unwatched: 0
       },
       following: false,
       canFollow: true
@@ -138,6 +136,14 @@ export default {
 
     followBtnValue() {
       return this.following ? 'Unfollow' : 'Follow';
+    },
+
+    followersCount() {
+
+    },
+
+    followingCount() {
+
     }
   }
 }
