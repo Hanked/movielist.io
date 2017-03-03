@@ -29,6 +29,7 @@ const actions = {
     .then(function(res) {
       commit('SET_USER', res.body);
       dispatch('FETCH_FOLLOWEES');
+      dispatch('FETCH_FOLLOWERS');
     })
     .catch(function(res, err) {
       console.log('failed to fetch current user', res);

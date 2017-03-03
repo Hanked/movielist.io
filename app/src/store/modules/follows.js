@@ -10,12 +10,18 @@ const state = {
 const getters = {
   FOLLOWEES: state => {
     return state.userFollows.followees;
+  },
+  FOLLOWERS: state => {
+    return state.userFollows.followers;
   }
 };
 
 const mutations = {
   SET_FOLLOWEES: (state, followees) => {
     state.userFollows.followees = followees;
+  },
+  SET_FOLLOWERS: (state, followers) => {
+    state.userFollows.followers = followers;
   },
   ADD_FOLLOWEE: (state, followee) => {
     state.userFollows.followees.push(followee);
@@ -42,6 +48,24 @@ const actions = {
     })
     .catch(function(res) {
       console.log('failed to fetch followees');
+    })
+  },
+
+  FETCH_FOLLOWERS: ({ commit }) => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    if (!token) { return }
+
+    Vue.http.get(`http://localhost:3000/api/followers/${userId}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
+    .then(function(res) {
+      commit('SET_FOLLOWERS', res.body);
+    })
+    .catch(function(res) {
+      console.log('failed to fetch followers');
     })
   },
 
