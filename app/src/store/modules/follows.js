@@ -1,25 +1,28 @@
 import Vue from 'vue';
 
 const state = {
-  follows: []
+  userFollows: {
+    followees: [],
+    followers: []
+  }
 };
 
 const getters = {
   FOLLOWS: state => {
-    return state.follows;
+    return state.userFollows.followees;
   }
 };
 
 const mutations = {
   SET_FOLLOWS: (state, follows) => {
-    state.follows = follows;
+    state.userFollows.followees = follows;
   },
   ADD_FOLLOW: (state, follow) => {
-    state.follows.push(follow);
+    state.userFollows.followees.push(follow);
   },
   REMOVE_FOLLOW: (state, follow) => {
-    const updatedFollowsArr = state.follows.filter(e => e !== follow)
-    state.follows = updatedFollowsArr;
+    const updatedFollowsArr = state.userFollows.followees.filter(e => e !== follow)
+    state.userFollows.followees = updatedFollowsArr;
   }
 };
 
@@ -29,7 +32,7 @@ const actions = {
     const userId = localStorage.getItem('userId');
     if (!token) { return }
 
-    Vue.http.get(`http://localhost:3000/api/follows/${userId}`, {
+    Vue.http.get(`http://localhost:3000/api/followees/${userId}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
