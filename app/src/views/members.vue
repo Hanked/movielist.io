@@ -19,8 +19,8 @@
         <div v-for="(member, i) in filteredMembers" class="column is-one-quarter">
           <member
             :index="i"
-            :member-follows="follows"
-            :memberdata="member">
+            :user-follows="follows"
+            :member-data="member">
           </member>
         </div>
       </div>

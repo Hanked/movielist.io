@@ -3,22 +3,22 @@
 
     <div class="card is-fullwidth">
         <header class="card-header" :style="heroBackgroundCssProp">
-          <a v-if="canFollow" @click="followMemberToggle(memberdata)" class="button follow is-small is-primary">
+          <a v-if="canFollow" @click="followMemberToggle(memberData)" class="button follow is-small is-primary">
             {{ followBtnValue }}
           </a>
         </header>
         <div class="card-content">
           <a class="card-avatar">
-            <img :src="memberdata.profileImageUrl" class="card-avatar-img">
+            <img :src="memberData.profileImageUrl" class="card-avatar-img">
           </a>
 
           <div class="card-user">
             <div class="card-user-name">
-              <a href="#">{{ memberdata.fullName }}</a>
+              <a href="#">{{ memberData.fullName }}</a>
             </div>
             <span>
               <a :href="profileUrl">
-                <span>{{ memberdata.username }}</span>
+                <span>{{ memberData.username }}</span>
               </a>
             </span>
           </div>
@@ -63,9 +63,9 @@ export default {
   name: 'member',
 
   props: [
-    'memberdata',
+    'memberData',
     'index',
-    'memberFollows'
+    'userFollows'
   ],
 
   data() {
@@ -88,7 +88,7 @@ export default {
   },
 
   watch: {
-    memberFollows() {
+    userFollows() {
       this.isFollowing();
     }
   },
@@ -106,11 +106,11 @@ export default {
 
     isFollowing() {
       // prevent logged in user from following themselves
-      if (this.memberdata._id === localStorage.getItem('userId')) {
+      if (this.memberData._id === localStorage.getItem('userId')) {
         this.canFollow = false;
       }
       // already following this user?
-      else if (this.$store.getters.FOLLOWS.indexOf(this.memberdata._id) > -1) {
+      else if (this.$store.getters.FOLLOWS.indexOf(this.memberData._id) > -1) {
         this.following = true;
       }
     },
@@ -126,14 +126,14 @@ export default {
   computed: {
     heroBackgroundCssProp() {
       let prop = 'none';
-      if (this.memberdata.heroImageUrl) {
-        prop = `url("${this.memberdata.heroImageUrl}")`;
+      if (this.memberData.heroImageUrl) {
+        prop = `url("${this.memberData.heroImageUrl}")`;
       }
       return 'background-image: ' + prop;
     },
 
     profileUrl() {
-      return `/profile/${this.memberdata.username}`
+      return `/profile/${this.memberData.username}`
     },
 
     followBtnValue() {

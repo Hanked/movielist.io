@@ -1,30 +1,31 @@
 import Vue from 'vue';
 
 const state = {
-  follows: []
+  userFollows: [],
+  allFollows: []
 };
 
 const getters = {
   FOLLOWS: state => {
-    return state.follows;
+    return state.userFollows;
   }
 };
 
 const mutations = {
-  SET_FOLLOWS: (state, follows) => {
-    state.follows = follows;
+  SET_FOLLOWS: (state, userFollows) => {
+    state.userFollows = userFollows;
   },
   ADD_FOLLOW: (state, follow) => {
-    state.follows.push(follow);
+    state.userFollows.push(follow);
   },
   REMOVE_FOLLOW: (state, follow) => {
-    const updatedFollowsArr = state.follows.filter(e => e !== follow)
-    state.follows = updatedFollowsArr;
+    const updatedUserFollowsArr = state.userFollows.filter(e => e !== follow)
+    state.userFollows = updatedUserFollowsArr;
   }
 };
 
 const actions = {
-  FETCH_FOLLOWS: ({ commit }) => {
+  FETCH_USER_FOLLOWS: ({ commit }) => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     if (!token) { return }
@@ -38,7 +39,7 @@ const actions = {
       commit('SET_FOLLOWS', res.body);
     })
     .catch(function(res) {
-      console.log('failed to fetch follows');
+      console.log('failed to fetch userFollows');
     })
   },
 
