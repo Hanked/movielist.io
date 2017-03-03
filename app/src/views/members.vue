@@ -19,8 +19,8 @@
         <div v-for="(member, i) in filteredMembers" class="column is-one-quarter">
           <member
             :index="i"
-            :member-follows="follows"
-            :memberdata="member">
+            :user-follows="follows"
+            :member-data="member">
           </member>
         </div>
       </div>
@@ -55,7 +55,7 @@ export default {
       return this.$store.getters.FILTERED_MEMBERS(this.memberSearchTerm);
     },
     follows() {
-      return this.$store.getters.FOLLOWS;
+      return this.$store.getters.USER_FOLLOWS;
     }
   }
 }

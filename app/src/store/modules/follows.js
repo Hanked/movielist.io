@@ -1,44 +1,65 @@
 import Vue from 'vue';
 
 const state = {
-  follows: []
+  userFollows: [],
+  allFollows: []
 };
 
 const getters = {
   FOLLOWS: state => {
-    return state.follows;
+    return state.allFollows;
+  },
+  USER_FOLLOWS: state => {
+    return state.userFollows;
   }
 };
 
 const mutations = {
+  SET_USER_FOLLOWS: (state, userFollows) => {
+    state.userFollows = userFollows;
+  },
   SET_FOLLOWS: (state, follows) => {
-    state.follows = follows;
+    state.allFollows = follows;
   },
   ADD_FOLLOW: (state, follow) => {
-    state.follows.push(follow);
+    state.userFollows.push(follow);
   },
   REMOVE_FOLLOW: (state, follow) => {
-    const updatedFollowsArr = state.follows.filter(e => e !== follow)
-    state.follows = updatedFollowsArr;
+    const updatedUserFollowsArr = state.userFollows.filter(e => e !== follow)
+    state.userFollows = updatedUserFollowsArr;
   }
 };
 
 const actions = {
-  FETCH_FOLLOWS: ({ commit }) => {
+  INIT_FOLLOWS: ({ commit }) => {
+    Vue.http.get('http://localhost:3000/api/follows')
+      .then(function(res) {
+        commit('SET_FOLLOWS', res.body);
+        console.log(res.body)
+      })
+      .catch(function(res) {
+        console.log('failed to fetch follows', res);
+      })
+  },
+
+  FETCH_USER_FOLLOWS: ({ commit }, type) => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     if (!token) { return }
 
-    Vue.http.get(`http://localhost:3000/api/follows/${userId}`, {
+    // if required create query string to be appended to request url
+    let query = type ? `?${type}=true` : '';
+
+    Vue.http.get(`http://localhost:3000/api/follows/${userId}${type}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
     })
     .then(function(res) {
-      commit('SET_FOLLOWS', res.body);
+      commit('SET_USER_FOLLOWS', res.body);
     })
     .catch(function(res) {
-      console.log('failed to fetch follows');
+      console.log('failed to fetch userFollows');
     })
   },
 
