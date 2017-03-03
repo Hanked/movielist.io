@@ -81,6 +81,12 @@ export default {
     }
   },
 
+  created() {
+    this.noFollowForLoggedOutUser(
+      !localStorage.getItem('userId')
+    );
+  },
+
   watch: {
     memberFollows() {
       this.isFollowing();
@@ -106,6 +112,13 @@ export default {
       // already following this user?
       else if (this.$store.getters.FOLLOWS.indexOf(this.memberdata._id) > -1) {
         this.following = true;
+      }
+    },
+
+    noFollowForLoggedOutUser(token) {
+      // prevent logged out user from following anyone
+      if (token) {
+        this.canFollow = false;
       }
     }
   },
