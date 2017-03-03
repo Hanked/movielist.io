@@ -1,6 +1,5 @@
 <template>
   <div class="member">
-
     <div class="card is-fullwidth">
         <header class="card-header" :style="heroBackgroundCssProp">
           <a v-if="canFollow" @click="followMemberToggle(memberdata)" class="button follow is-small is-primary">
@@ -40,13 +39,13 @@
               <li class="card-stats-item">
                 <a href="">
                   <span class="card-stats-key">Following</span>
-                  <span class="card-stats-val">{{ counts.following }}</span>
+                  <span class="card-stats-val">{{ followingCount }}</span>
                 </a>
               </li>
               <li class="card-stats-item">
                 <a href="#">
                   <span class="card-stats-key">Followers</span>
-                  <span class="card-stats-val">{{ counts.followers }}</span>
+                  <span class="card-stats-val">{{ followersCount }}</span>
                 </a>
               </li>
             </ul>
@@ -65,7 +64,9 @@ export default {
   props: [
     'memberdata',
     'index',
-    'memberFollows'
+    'userFollowees',
+    'followingCount',
+    'followersCount'
   ],
 
   data() {
@@ -81,8 +82,14 @@ export default {
     }
   },
 
+  created() {
+    this.noFollowForLoggedOutUser(
+      !localStorage.getItem('userId')
+    );
+  },
+
   watch: {
-    memberFollows() {
+    userFollowees() {
       this.isFollowing();
     }
   },
@@ -104,8 +111,15 @@ export default {
         this.canFollow = false;
       }
       // already following this user?
-      else if (this.$store.getters.FOLLOWS.indexOf(this.memberdata._id) > -1) {
+      else if (this.$store.getters.FOLLOWEES.indexOf(this.memberdata._id) > -1) {
         this.following = true;
+      }
+    },
+
+    noFollowForLoggedOutUser(token) {
+      // prevent logged out user from following anyone
+      if (token) {
+        this.canFollow = false;
       }
     }
   },

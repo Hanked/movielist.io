@@ -19,7 +19,9 @@
         <div v-for="(member, i) in filteredMembers" class="column is-one-quarter">
           <member
             :index="i"
-            :member-follows="follows"
+            :followers-count="followCount('followee_id', member._id)"
+            :following-count="followCount('follower_id', member._id)"
+            :user-followees="userFollowees"
             :memberdata="member">
           </member>
         </div>
@@ -48,14 +50,30 @@ export default {
 
   created() {
     this.$store.dispatch('INIT_MEMBERS');
+    this.$store.dispatch('INIT_FOLLOWS');
+  },
+
+  methods: {
+    followCount(type, memberId) {
+      let follows = this.$store.getters.FOLLOWS;
+      let count = 0;
+
+      follows.forEach((follow, i) => {
+        if (follow[type] == memberId) {
+          count++;
+        }
+      });
+
+      return count;
+    }
   },
 
   computed: {
     filteredMembers() {
       return this.$store.getters.FILTERED_MEMBERS(this.memberSearchTerm);
     },
-    follows() {
-      return this.$store.getters.FOLLOWS;
+    userFollowees() {
+      return this.$store.getters.FOLLOWEES;
     }
   }
 }

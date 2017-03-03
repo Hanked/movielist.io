@@ -1,12 +1,22 @@
 import Vue from 'vue';
 
 const state = {
-  follows: []
+  follows: [],
+  userFollows: {
+    followees: [],
+    followers: []
+  }
 };
 
 const getters = {
   FOLLOWS: state => {
     return state.follows;
+  },
+  FOLLOWEES: state => {
+    return state.userFollows.followees;
+  },
+  FOLLOWERS: state => {
+    return state.userFollows.followers;
   }
 };
 
@@ -14,32 +24,58 @@ const mutations = {
   SET_FOLLOWS: (state, follows) => {
     state.follows = follows;
   },
-  ADD_FOLLOW: (state, follow) => {
-    state.follows.push(follow);
+  SET_FOLLOWEES: (state, followees) => {
+    state.userFollows.followees = followees;
   },
-  REMOVE_FOLLOW: (state, follow) => {
-    const updatedFollowsArr = state.follows.filter(e => e !== follow)
-    state.follows = updatedFollowsArr;
+  SET_FOLLOWERS: (state, followers) => {
+    state.userFollows.followers = followers;
+  },
+  ADD_FOLLOWEE: (state, followee) => {
+    state.userFollows.followees.push(followee);
+  },
+  REMOVE_FOLLOWEE: (state, followee) => {
+    const updatedFollowsArr = state.userFollows.followees.filter(e => e !== followee)
+    state.userFollows.followees = updatedFollowsArr;
   }
 };
 
 const actions = {
-  FETCH_FOLLOWS: ({ commit }) => {
+  INIT_FOLLOWS: ({ commit }) => {
+    Vue.http.get('http://localhost:3000/api/follows')
+      .then(function(res) {
+        commit('SET_FOLLOWS', res.body);
+      })
+      .catch(function(res) {
+        console.log('failed to fetch follows');
+      })
+  },
+
+  FETCH_FOLLOWEES: ({ commit }) => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     if (!token) { return }
 
-    Vue.http.get(`http://localhost:3000/api/follows/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(function(res) {
-      commit('SET_FOLLOWS', res.body);
-    })
-    .catch(function(res) {
-      console.log('failed to fetch follows');
-    })
+    Vue.http.get(`http://localhost:3000/api/followees/${userId}`)
+      .then(function(res) {
+        commit('SET_FOLLOWEES', res.body);
+      })
+      .catch(function(res) {
+        console.log('failed to fetch followees');
+      })
+  },
+
+  FETCH_FOLLOWERS: ({ commit }) => {
+    const token = localStorage.getItem('token');
+    const userId = localStorage.getItem('userId');
+    if (!token) { return }
+
+    Vue.http.get(`http://localhost:3000/api/followers/${userId}`)
+      .then(function(res) {
+        commit('SET_FOLLOWERS', res.body);
+      })
+      .catch(function(res) {
+        console.log('failed to fetch followers');
+      })
   },
 
   FOLLOW_MEMBER: ({ commit }, memberData) => {
@@ -57,7 +93,7 @@ const actions = {
         }
       })
       .then(function(res) {
-        commit('ADD_FOLLOW', res.body.followee_id);
+        commit('ADD_FOLLOWEE', res.body.followee_id);
       })
       .catch(function(res) {
         console.log('failed to follow member');
@@ -76,7 +112,7 @@ const actions = {
         }
       })
       .then(function(res) {
-        commit('REMOVE_FOLLOW', res.body.followee_id);
+        commit('REMOVE_FOLLOWEE', res.body.followee_id);
       })
       .catch(function(res) {
         console.log('failed to unfollow member', res);
