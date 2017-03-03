@@ -9,6 +9,9 @@ const state = {
 };
 
 const getters = {
+  FOLLOWS: state => {
+    return state.follows;
+  },
   FOLLOWEES: state => {
     return state.userFollows.followees;
   },

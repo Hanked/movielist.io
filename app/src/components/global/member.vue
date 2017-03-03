@@ -1,6 +1,5 @@
 <template>
   <div class="member">
-
     <div class="card is-fullwidth">
         <header class="card-header" :style="heroBackgroundCssProp">
           <a v-if="canFollow" @click="followMemberToggle(memberdata)" class="button follow is-small is-primary">
@@ -65,14 +64,18 @@ export default {
   props: [
     'memberdata',
     'index',
-    'memberFollows'
+    'userFollowees',
+    'followingCount',
+    'followersCount'
   ],
 
   data() {
     return {
       counts: {
         watched: 0,
-        unwatched: 0
+        unwatched: 0,
+        following: 0,
+        followers: 0
       },
       following: false,
       canFollow: true
@@ -86,7 +89,7 @@ export default {
   },
 
   watch: {
-    memberFollows() {
+    userFollowees() {
       this.isFollowing();
     }
   },
@@ -136,14 +139,6 @@ export default {
 
     followBtnValue() {
       return this.following ? 'Unfollow' : 'Follow';
-    },
-
-    followersCount() {
-
-    },
-
-    followingCount() {
-
     }
   }
 }

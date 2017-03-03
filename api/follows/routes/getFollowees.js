@@ -23,8 +23,5 @@ module.exports = {
         })
     },
     auth: false
-    // auth: {
-    //   scope: ['user-{params.follower_id}']
-    // }
   }
 }
