@@ -21,14 +21,21 @@ module.exports = {
         if (err) {
           throw Boom.badRequest(err);
         }
-        if (!follows.length) {
-          res([]).code(201);
+        // if (!follows.length) {
+        //   res([]).code(201);
+        // }
+
+        let returnDataType = 'followee_id';
+
+        if (req.query.$follower) {
+          returnDataType = 'follower_id';
         }
 
-        var followeeIdArr = follows.map(function(a) {
-          return a.followee_id;
+        var returnData = follows.map(function(a) {
+          return a[returnDataType];
         });
-        res(followeeIdArr).code(201);
+
+        res(returnData).code(201);
       })
     },
     auth: false

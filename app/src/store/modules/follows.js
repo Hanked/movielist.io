@@ -42,12 +42,15 @@ const actions = {
       })
   },
 
-  FETCH_USER_FOLLOWS: ({ commit }) => {
+  FETCH_USER_FOLLOWS: ({ commit }, type) => {
     const token = localStorage.getItem('token');
     const userId = localStorage.getItem('userId');
     if (!token) { return }
 
-    Vue.http.get(`http://localhost:3000/api/follows/${userId}`, {
+    // if required create query string to be appended to request url
+    let query = type ? `?${type}=true` : '';
+
+    Vue.http.get(`http://localhost:3000/api/follows/${userId}${type}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
