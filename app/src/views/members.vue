@@ -48,11 +48,6 @@ export default {
     }
   },
 
-  created() {
-    this.$store.dispatch('INIT_MEMBERS');
-    this.$store.dispatch('INIT_FOLLOWS');
-  },
-
   methods: {
     followCount(type, memberId) {
       let follows = this.$store.getters.FOLLOWS;

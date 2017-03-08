@@ -19,9 +19,10 @@ const mutations = {
 const actions = {
   INIT_USER: ({ commit, dispatch }) => {
     const token = localStorage.getItem('token');
+    const username = localStorage.getItem('username');
     if (!token) { return }
 
-    Vue.http.get('http://localhost:3000/api/users/current', {
+    Vue.http.get(`http://localhost:3000/api/users/${username}`, {
       headers: {
         'Authorization': `Bearer ${token}`
       }
