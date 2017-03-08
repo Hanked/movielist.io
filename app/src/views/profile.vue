@@ -10,7 +10,7 @@
                 :index="0"
                 :followers-count="memberFollowersCount"
                 :following-count="memberFollowingCount"
-                :user-followees="memberFollowees"
+                :user-followees="userFollowees"
                 :memberdata="member">
               </member>
 
@@ -480,8 +480,8 @@ export default {
     member() {
       return this.$store.getters.MEMBER;
     },
-    memberFollowees() {
-      return this.$store.getters.MEMBER_FOLLOWEES;
+    userFollowees() {
+      return this.$store.getters.FOLLOWEES;
     },
     memberFollowingCount() {
       return this.$store.getters.MEMBER_FOLLOWEES.length;
