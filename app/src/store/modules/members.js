@@ -1,12 +1,16 @@
 import Vue from 'vue';
 
 const state = {
-    members: []
+    members: [],
+    member: {}
 };
 
 const getters = {
   MEMBERS: state => {
     return state.members;
+  },
+  MEMBER: state => {
+    return state.member;
   },
   FILTERED_MEMBERS: (state, getters) => (searchTerm) => {
     let matchableProps = ['username', 'fullName'];
@@ -33,6 +37,10 @@ const getters = {
 const mutations = {
   SET_MEMBERS: (state, members) => {
     state.members = members;
+  },
+  SET_MEMBER: (state, member) => {
+    console.log(member);
+    state.member = member;
   }
 };
 
@@ -45,6 +53,16 @@ const actions = {
       .catch(function(res) {
         console.log('failed to fetch members');
       })
+  },
+
+  FETCH_MEMBER: ({ commit }, memberUsername) => {
+    Vue.http.get(`http://localhost:3000/api/users/${memberUsername}`)
+    .then(function(res) {
+      commit('SET_MEMBER', res.body);
+    })
+    .catch(function(res, err) {
+      console.log('failed to fetch current user', res);
+    })
   }
 };
 

@@ -5,57 +5,15 @@
         <div class="container">
           <div class="columns">
             <div class="column is-3">
-              <div class="card is-fullwidth">
-                <header class="card-header">
-                  <a class="button follow is-small is-primary">
-                    <!-- <i class="fa fa-check"></i> -->
-                    Follow
-                  </a>
-                </header>
-                <div class="card-content">
-                  <a class="card-avatar">
-                    <img src="https://avatars3.githubusercontent.com/u/9929871?v=3&u=06b0f5a657f9306fb5e458bbead810bb2c402d39&s=400" class="card-avatar-img">
-                  </a>
 
-                  <div class="card-user">
-                    <div class="card-user-name">
-                      <a href="#">Dave Kingsnorth</a>
-                    </div>
-                    <span>
-                      <a href="#"><span>Hanked</span></a>
-                    </span>
-                  </div>
+              <member
+                :index="0"
+                :followers-count="memberFollowersCount"
+                :following-count="memberFollowingCount"
+                :user-followees="memberFollowees"
+                :memberdata="member">
+              </member>
 
-                  <div class="card-stats">
-                    <ul class="card-stats-list">
-                      <li class="card-stats-item">
-                        <a href="#">
-                          <span class="card-stats-key">Movie list</span>
-                          <span class="card-stats-val">34</span>
-                        </a>
-                      </li>
-                      <li class="card-stats-item">
-                        <a href="#">
-                          <span class="card-stats-key">Watched</span>
-                          <span class="card-stats-val">281</span>
-                        </a>
-                      </li>
-                      <li class="card-stats-item">
-                        <a href="">
-                          <span class="card-stats-key">Following</span>
-                          <span class="card-stats-val">20</span>
-                        </a>
-                      </li>
-                      <li class="card-stats-item">
-                        <a href="#">
-                          <span class="card-stats-key">Followers</span>
-                          <span class="card-stats-val">12</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
               <div class="spacer"></div>
               <div class="box trending">
                 <p><span class="title is-5">Activity</span> · <a href="#"><small>clear</small></a>
@@ -499,11 +457,37 @@
 
 
 <script>
+import Member from './../components/global/member';
+
 export default {
   name: 'profile',
+
+  components: {
+    Member
+  },
+
   data () {
     return {
 
+    }
+  },
+
+  created() {
+    this.$store.dispatch('FETCH_MEMBER', this.$route.params.userId);
+  },
+
+  computed: {
+    member() {
+      return this.$store.getters.MEMBER;
+    },
+    memberFollowees() {
+      return;
+    },
+    memberFollowingCount() {
+      return 5;
+    },
+    memberFollowersCount() {
+      return 9;
     }
   }
 }

@@ -19,6 +19,8 @@ export default {
 
   created() {
     this.$store.dispatch('INIT_USER');
+    this.$store.dispatch('INIT_MEMBERS');
+    this.$store.dispatch('INIT_FOLLOWS');
   }
 }
 </script>
