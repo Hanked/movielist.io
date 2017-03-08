@@ -5,6 +5,10 @@ const state = {
   userFollows: {
     followees: [],
     followers: []
+  },
+  memberFollows: {
+    followees: [],
+    followers: []
   }
 };
 
@@ -12,8 +16,17 @@ const getters = {
   FOLLOWS: state => {
     return state.follows;
   },
+  MEMBER_FOLLOWS: state => {
+    return state.follows;
+  },
   FOLLOWEES: state => {
     return state.userFollows.followees;
+  },
+  MEMBER_FOLLOWEES: state => {
+    return state.memberFollows.followees;
+  },
+  MEMBER_FOLLOWERS: state => {
+    return state.memberFollows.followers;
   },
   FOLLOWERS: state => {
     return state.userFollows.followers;
@@ -29,6 +42,12 @@ const mutations = {
   },
   SET_FOLLOWERS: (state, followers) => {
     state.userFollows.followers = followers;
+  },
+  SET_MEMBER_FOLLOWEES: (state, followees) => {
+    state.memberFollows.followees = followees;
+  },
+  SET_MEMBER_FOLLOWERS: (state, followers) => {
+    state.memberFollows.followers = followers;
   },
   ADD_FOLLOWEE: (state, followee) => {
     state.userFollows.followees.push(followee);
@@ -50,31 +69,33 @@ const actions = {
       })
   },
 
-  FETCH_FOLLOWEES: ({ commit }) => {
+  FETCH_FOLLOWEES: ({ commit }, memberId) => {
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
+    const userId = memberId || localStorage.getItem('userId');
     if (!token) { return }
 
     Vue.http.get(`http://localhost:3000/api/followees/${userId}`)
       .then(function(res) {
-        commit('SET_FOLLOWEES', res.body);
+        const action = memberId ? 'SET_MEMBER_FOLLOWEES' : 'SET_FOLLOWEES'
+        commit(action, res.body);
       })
       .catch(function(res) {
-        console.log('failed to fetch followees');
+        console.log('failed to fetch followees', res);
       })
   },
 
-  FETCH_FOLLOWERS: ({ commit }) => {
+  FETCH_FOLLOWERS: ({ commit }, memberId) => {
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
+    const userId = memberId || localStorage.getItem('userId');
     if (!token) { return }
 
     Vue.http.get(`http://localhost:3000/api/followers/${userId}`)
       .then(function(res) {
-        commit('SET_FOLLOWERS', res.body);
+        const action = memberId ? 'SET_MEMBER_FOLLOWERS' : 'SET_FOLLOWERS'
+        commit(action, res.body);
       })
       .catch(function(res) {
-        console.log('failed to fetch followers');
+        console.log('failed to fetch followers', res);
       })
   },
 

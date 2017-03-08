@@ -481,13 +481,13 @@ export default {
       return this.$store.getters.MEMBER;
     },
     memberFollowees() {
-      return;
+      return this.$store.getters.MEMBER_FOLLOWEES;
     },
     memberFollowingCount() {
-      return 5;
+      return this.$store.getters.MEMBER_FOLLOWEES.length;
     },
     memberFollowersCount() {
-      return 9;
+      return this.$store.getters.MEMBER_FOLLOWERS.length;
     }
   }
 }

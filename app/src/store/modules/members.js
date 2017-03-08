@@ -39,7 +39,6 @@ const mutations = {
     state.members = members;
   },
   SET_MEMBER: (state, member) => {
-    console.log(member);
     state.member = member;
   }
 };
@@ -55,10 +54,12 @@ const actions = {
       })
   },
 
-  FETCH_MEMBER: ({ commit }, memberUsername) => {
+  FETCH_MEMBER: ({ commit, dispatch }, memberUsername) => {
     Vue.http.get(`http://localhost:3000/api/users/${memberUsername}`)
     .then(function(res) {
       commit('SET_MEMBER', res.body);
+      dispatch('FETCH_FOLLOWEES', res.body._id);
+      dispatch('FETCH_FOLLOWERS', res.body._id);
     })
     .catch(function(res, err) {
       console.log('failed to fetch current user', res);
