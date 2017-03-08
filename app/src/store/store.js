@@ -6,6 +6,7 @@ import user from './modules/user';
 import auth from './modules/auth';
 import members from './modules/members';
 import follows from './modules/follows';
+import movies from './modules/movies';
 
 Vue.use(Vuex);
 Vue.use(VueResource);
@@ -15,6 +16,7 @@ export const store = new Vuex.Store({
     user,
     auth,
     members,
-    follows
+    follows,
+    movies
   }
 });

@@ -106,13 +106,6 @@ export default {
     },
 
     isFollowing() {
-
-      console.log({
-        'this.memberdata._id': this.memberdata._id,
-        'this.$store.getters.FOLLOWEES': this.$store.getters.FOLLOWEES,
-        'localStorage.getItem("userId")': localStorage.getItem('userId')
-      });
-
       // prevent logged in user from following themselves
       if (this.memberdata._id === localStorage.getItem('userId')) {
         this.canFollow = false;
