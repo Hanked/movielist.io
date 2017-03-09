@@ -13,14 +13,19 @@ const mutations = {
 };
 
 const actions = {
-  ADD_MOVIE: ({ commit }, searchTerm) => {
+  ADD_MOVIE: ({ commit, dispatch }, searchTerm) => {
     Vue.http.get(`http://www.omdbapi.com/?t=${searchTerm}&y=&plot=short&r=json`)
       .then(function(res) {
         console.log(res.body);
+        dispatch('UPDATE_MOVIELIST', res.body.imdbID);
       })
       .catch(function(res) {
         console.log('could not get movie');
       })
+  },
+
+  UPDATE_MOVIELIST: ({ commit, dispatch }, imdbID) => {
+    console.log('imdbId:', imdbID);
   },
 
   CREATE_MOVIELIST: ({ commit }, userId) => {
