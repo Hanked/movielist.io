@@ -8,19 +8,21 @@ module.exports = {
   path: '/api/movielist/{userId}',
   config: {
     handler: (req, res) => {
+      console.log('boom!!!!', req.auth);
+
       let movieList = new MovieList();
 
       movieList.user_id = req.params.userId;
-      movieList.movie_ids = req.payload.movie_ids;
+      movieList.movie_ids = [];
 
       movieList.save((err, list) => {
         if (err) {
-          res(err);
-          return;
+          throw Boom.badRequest(err);
         }
         res(list).code(201);
       });
     },
+    // auth: false
     auth: {
       scope: ['user-{params.userId}']
     }
