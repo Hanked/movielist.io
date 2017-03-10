@@ -8,16 +8,13 @@ module.exports = {
   path: '/api/movies/{userId}',
   config: {
     handler: (req, res) => {
-      Movie
-        .find({ userId: req.params.userId })
-        .exec((err, movies) => {
-          if (err) {
-            throw Boom.badRequest(err);
-          }
-
-          res(movies).code(200);
-        })
-
+      Movie.find({ userId: req.params.userId })
+      .exec((err, movies) => {
+        if (err) {
+          throw Boom.badRequest(err);
+        }
+        res(movies).code(200);
+      })
     },
     auth: {
       scope: ['user-{params.userId}']
