@@ -2,11 +2,20 @@ import Vue from 'vue';
 
 const state = {
   userMovies: [],
-  memberMovies: []
+  memberMovies: [],
+  error: {
+    isVisible: false,
+    message: ''
+  }
 };
 
 const getters = {
-
+  MOVIE_ERROR_MSG: state => {
+    return state.error.message;
+  },
+  MOVIE_ERROR_IS_VISIBLE: state => {
+    return state.error.isVisible;
+  }
 };
 
 const mutations = {
@@ -15,6 +24,9 @@ const mutations = {
   },
   UPDATE_MOVIES: (state, movie) => {
     state.userMovies.push(movie);
+  },
+  UPDATE_ERROR: (state, error) => {
+    state.error = error;
   }
 };
 
@@ -45,9 +57,14 @@ const actions = {
 
     Vue.http.get(`http://www.omdbapi.com/?t=${searchTerm}&y=&plot=short&r=json`)
       .then(function(res) {
-
         // if movie not found
-        if (res.body.Response == 'False') { return };
+        if (res.body.Response == 'False') {
+          commit('UPDATE_ERROR', {
+            isVisible: true,
+            message: 'Could not find movie'
+          })
+          return;
+        }
 
         commit('UPDATE_MOVIES', {
           userId: userId,
@@ -61,7 +78,7 @@ const actions = {
         dispatch('SAVE_MOVIE', res.body.imdbID);
       })
       .catch(function(res) {
-        console.log('could not get movie', res);
+        console.log('failed to add movie');
       })
   },
 
@@ -69,6 +86,13 @@ const actions = {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
     if (!token) { return }
+
+    // if error message is showing from previous attempt
+    // reset and hide it
+    commit('UPDATE_ERROR', {
+      isVisible: false,
+      message: ''
+    })
 
     Vue.http.post(`http://localhost:3000/api/movies/${userId}`,
       {
@@ -83,7 +107,7 @@ const actions = {
         console.log('movie saved');
       })
       .catch(function(res) {
-        console.log('failed to save movie');
+        console.log('failed to save movie', res);
       })
   },
 

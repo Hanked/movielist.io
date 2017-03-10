@@ -7,6 +7,9 @@
           Add
         </a>
       </p>
+      <div v-show="errorIsVisible" class="notification is-danger">
+        {{ errorMsg }}
+      </div>
     </div>
   </div>
 </template>
@@ -30,6 +33,15 @@ export default {
 
     movieSearch() {
       this.$store.dispatch('ADD_MOVIE', this.movieSearchTerm);
+    }
+  },
+
+  computed: {
+    errorMsg() {
+      return this.$store.getters.MOVIE_ERROR_MSG;
+    },
+    errorIsVisible() {
+      return this.$store.getters.MOVIE_ERROR_IS_VISIBLE;
     }
   }
 }
