@@ -66,6 +66,7 @@ const actions = {
         localStorage.setItem('username', res.body.username);
 
         dispatch('INIT_USER', res.body);
+
         window.location.href = `/profile/${res.body.username}`;
       })
 

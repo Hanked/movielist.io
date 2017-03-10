@@ -29,14 +29,8 @@
 
 
             <div class="column is-6">
-              <div class="notification search is-primary">
-                <p class="control has-addons">
-                  <input class="input is-expanded" type="text">
-                  <a class="button is-primary is-active">
-                    Add
-                  </a>
-                </p>
-              </div>
+
+              <add-movie></add-movie>
 
               <div class="box">
                 <div class="tabs is-boxed">
@@ -458,12 +452,14 @@
 
 <script>
 import Member from './../components/global/member';
+import AddMovie from './../components/profile/addMovie';
 
 export default {
   name: 'profile',
 
   components: {
-    Member
+    Member,
+    AddMovie
   },
 
   data () {
