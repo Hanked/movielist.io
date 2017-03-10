@@ -13,7 +13,7 @@ module.exports = {
       let movieList = new MovieList();
 
       movieList.user_id = req.params.userId;
-      movieList.movie_ids = [];
+      movieList.movies = [];
 
       movieList.save((err, list) => {
         if (err) {

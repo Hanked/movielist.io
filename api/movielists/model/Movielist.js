@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 
 const movieListModel = new Schema({
   user_id: { type: String, required: true },
-  movie_ids: { type: Array, required: false }
+  movies: { type: Array, required: false }
 },
 {
   timestamps: true
