@@ -5,7 +5,7 @@ const Movie = require('../model/Movie');
 
 module.exports = {
   method: 'POST',
-  path: '/api/movie/{userId}',
+  path: '/api/movies/{userId}',
   config: {
     handler: (req, res) => {
       let movie = new Movie();
