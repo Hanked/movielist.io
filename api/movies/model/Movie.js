@@ -9,7 +9,7 @@ const movieModel = new Schema({
   watched: { type: Boolean, default: false },
   recommended: { type: Boolean, default: false },
   disliked: { type: Boolean, default: false },
-  sortPosition: { type: Number, default: 0 }
+  position: { type: Number, default: 0 }
 },
 {
   timestamps: true
