@@ -1,13 +1,13 @@
 <template>
   <div class="add-movie">
     <div class="notification search is-primary">
-      <p class="control has-addons">
+      <p class="control has-addons add-movie-validation">
         <input class="input is-expanded" type="text" v-model="movieSearchTerm" @keydown.enter="addMovie">
         <a class="button is-primary is-active" @click="addMovie">
           Add
         </a>
       </p>
-      <div v-show="errorIsVisible" class="notification is-danger">
+      <div v-show="errorIsVisible">
         {{ errorMsg }}
       </div>
     </div>
@@ -51,5 +51,8 @@ export default {
 <style scoped>
   .search {
     margin-bottom: 15px;
+  }
+  .add-movie-validation {
+    margin-bottom: 0;
   }
 </style>
