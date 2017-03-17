@@ -18,7 +18,11 @@
         </ul>
       </div>
 
-      <movie-list-item></movie-list-item>
+      <div v-for="(movie, i) in userMovies">
+        <movie-list-item
+          :movie="movie">
+        </movie-list-item>
+      </div>
 
     </div>
   </div>
@@ -46,7 +50,9 @@ export default {
   },
 
   computed: {
-
+    userMovies() {
+      return this.$store.getters.MOVIES;
+    }
   }
 }
 </script>

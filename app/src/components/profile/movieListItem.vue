@@ -3,15 +3,22 @@
     <article class="media movie">
         <div class="media-left">
           <figure class="image is-48x48">
-            <img src="https://images-na.ssl-images-amazon.com/images/M/MV5BMTg1OTA5OTkyNV5BMl5BanBnXkFtZTgwODMwNDU5OTE@._V1_SX300.jpg" alt="Image">
+            <img :src="movie.Poster" :alt="movie.Title">
           </figure>
         </div>
         <div class="media-content">
           <div class="content">
             <p>
-              <strong>A Monster Calls</strong> <small>(2016) 1h 48min</small> <small style="float:right;"><strong>7.7&nbsp;</strong><span class="icon is-small"><i class="fa fa-star"></i></span></small>
+              <strong>{{ movie.Title }}</strong> <small>({{ movie.Year }}) {{ movie.Runtime }}</small>
+
+              <small style="float:right;">
+                <strong>{{ movie.imdbRating }}&nbsp;</strong>
+                <span class="icon is-small">
+                    <i class="fa fa-star"></i>
+                </span>
+              </small>
               <br>
-              A boy seeks the help of a tree monster to cope with his single mom's terminal illness.
+              {{ movie.Plot }}
             </p>
           </div>
           <nav class="level">
@@ -59,6 +66,10 @@
 <script>
 export default {
   name: 'movie-list-item',
+
+  props: [
+    'movie'
+  ],
 
   data() {
     return {
