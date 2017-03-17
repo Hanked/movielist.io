@@ -3,13 +3,18 @@
     <article class="media movie">
         <div class="media-left">
           <figure class="image is-48x48">
-            <img :src="movie.Poster" :alt="movie.Title">
+            <a :href="imdbUrl">
+              <img :src="movie.Poster" :alt="movie.Title">
+            </a>
           </figure>
         </div>
         <div class="media-content">
           <div class="content">
             <p>
-              <strong>{{ movie.Title }}</strong> <small>({{ movie.Year }}) {{ movie.Runtime }}</small>
+              <a :href="imdbUrl">
+                <strong>{{ movie.Title }}</strong>
+              </a>
+              <small>({{ movie.Year }}) {{ movie.Runtime }}</small>
 
               <small style="float:right;">
                 <strong>{{ movie.imdbRating }}&nbsp;</strong>
@@ -42,7 +47,7 @@
                   </span>
                   <span>Dislike</span>
                 </a>
-                <a class="button is-small is-outlined">
+                <a class="button is-small is-outlined" @click="removeMovie">
                   <span class="icon is-small">
                     <i class="fa fa-remove"></i>
                   </span>
@@ -71,18 +76,16 @@ export default {
     'movie'
   ],
 
-  data() {
-    return {
-
+  methods: {
+    removeMovie() {
+      this.$store.dispatch('REMOVE_MOVIE', this.movie.imdbID);
     }
   },
 
-  methods: {
-
-  },
-
   computed: {
-
+    imdbUrl() {
+      return `http://www.imdb.com/title/${this.movie.imdbID}`;
+    }
   }
 }
 </script>

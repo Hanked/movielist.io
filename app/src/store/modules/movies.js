@@ -28,6 +28,10 @@ const mutations = {
   UPDATE_MOVIES: (state, movie) => {
     state.userMovies.push(movie);
   },
+  REMOVE_MOVIE: (state, movieId) => {
+    const index = state.userMovies.findIndex(item => item.imdbID === movieId);
+    state.userMovies.splice(index, 1);
+  },
   UPDATE_ERROR: (state, error) => {
     state.error = error;
   }
@@ -76,7 +80,9 @@ const actions = {
         movie.disliked = false;
         movie.position = 0;
 
+        // update state
         commit('UPDATE_MOVIES', movie);
+        // make api request to save to db
         dispatch('SAVE_MOVIE', movie);
       })
       .catch(function(res) {
@@ -113,8 +119,30 @@ const actions = {
       })
   },
 
-  REMOVE_MOVIE: ({ commit, dispatch }) => {
+  REMOVE_MOVIE: ({ commit }, movieId) => {
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    if (!token) { return }
 
+    console.log({
+      userId: userId,
+      token: token,
+      movieId: movieId
+    });
+
+    Vue.http.delete(`http://localhost:3000/api/movies/${userId}/${movieId}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(function(res) {
+        commit('REMOVE_MOVIE', movieId);
+        console.log('movie deleted');
+      })
+      .catch(function(res) {
+        console.log('failed to delete movie', res);
+      })
   },
 
   UPDATE_MOVIE: ({ commit, dispatch }) => {
