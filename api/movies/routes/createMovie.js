@@ -9,9 +9,12 @@ module.exports = {
   config: {
     handler: (req, res) => {
       let movie = new Movie();
+      let movieData = req.payload.movie;
 
-      movie.userId = req.params.userId;
-      movie.movieId = req.payload.movieId;
+      // duplicate the movie data from the request to new Movie instance
+      for (let prop in movieData) {
+         movie[prop] = movieData[prop]
+      }
 
       movie.save((err, movie) => {
         if (err) {

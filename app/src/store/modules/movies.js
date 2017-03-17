@@ -15,6 +15,9 @@ const getters = {
   },
   MOVIE_ERROR_IS_VISIBLE: state => {
     return state.error.isVisible;
+  },
+  MOVIES: state => {
+    return state.userMovies;
   }
 };
 
@@ -66,23 +69,22 @@ const actions = {
           return;
         }
 
-        commit('UPDATE_MOVIES', {
-          userId: userId,
-          movieId: res.body.imdbID,
-          watched: false,
-          recommended: false,
-          disliked: false,
-          position: 0
-        });
+        const movie = res.body;
+        movie.userId = userId;
+        movie.watched = false;
+        movie.recommended = false;
+        movie.disliked = false;
+        movie.position = 0;
 
-        dispatch('SAVE_MOVIE', res.body.imdbID);
+        commit('UPDATE_MOVIES', movie);
+        dispatch('SAVE_MOVIE', movie);
       })
       .catch(function(res) {
         console.log('failed to add movie');
       })
   },
 
-  SAVE_MOVIE: ({ commit }, movieId) => {
+  SAVE_MOVIE: ({ commit }, movie) => {
     const userId = localStorage.getItem('userId');
     const token = localStorage.getItem('token');
     if (!token) { return }
@@ -96,7 +98,7 @@ const actions = {
 
     Vue.http.post(`http://localhost:3000/api/movies/${userId}`,
       {
-        movieId: movieId
+        movie: movie
       },
       {
         headers: {
