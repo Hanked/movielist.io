@@ -29,7 +29,7 @@
           <nav class="level">
             <div class="level-left">
               <p class="control has-addons">
-                <a class="button is-small is-outlined">
+                <a class="button is-small is-outlined" @click="updateMovie('watched')">
                   <span class="icon is-small">
                     <i class="fa fa-tv"></i>
                   </span>
@@ -79,6 +79,12 @@ export default {
   methods: {
     removeMovie() {
       this.$store.dispatch('REMOVE_MOVIE', this.movie.imdbID);
+    },
+    updateMovie(type) {
+      this.$store.dispatch('UPDATE_MOVIE', {
+        movieId: this.movie.imdbID,
+        type: type
+      });
     }
   },
 

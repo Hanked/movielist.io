@@ -28,6 +28,10 @@ const mutations = {
   UPDATE_MOVIES: (state, movie) => {
     state.userMovies.push(movie);
   },
+  UPDATE_MOVIE: (state, args) => {
+    const index = state.userMovies.findIndex(item => item.imdbID === args.movieId);
+    state.userMovies[index][args.type] = true;
+  },
   REMOVE_MOVIE: (state, movieId) => {
     const index = state.userMovies.findIndex(item => item.imdbID === movieId);
     state.userMovies.splice(index, 1);
@@ -145,10 +149,13 @@ const actions = {
       })
   },
 
-  UPDATE_MOVIE: ({ commit, dispatch }) => {
-
+  UPDATE_MOVIE: ({ commit }, args) => {
+    console.log(args);
+    commit('UPDATE_MOVIE', {
+      movieId: args.movieId,
+      type: args.type
+    });
   }
-
 };
 
 export default {
