@@ -144,11 +144,31 @@ const actions = {
   },
 
   UPDATE_MOVIE: ({ commit }, args) => {
-    console.log(args);
-    commit('UPDATE_MOVIE', {
-      movieId: args.movieId,
-      type: args.type
-    });
+    const userId = localStorage.getItem('userId');
+    const token = localStorage.getItem('token');
+    if (!token) { return }
+
+    let bodyData = {};
+    bodyData.movieId = args.movieId;
+    bodyData[args.type] = true;
+
+    Vue.http.patch(`http://localhost:3000/api/movies/${userId}`,
+      bodyData,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(function(res) {
+        commit('UPDATE_MOVIE', {
+          movieId: args.movieId,
+          type: args.type
+        });
+        console.log('movie updated');
+      })
+      .catch(function(res) {
+        console.log('failed to update movie', res);
+      })
   }
 };
 

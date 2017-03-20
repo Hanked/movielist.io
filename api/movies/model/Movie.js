@@ -11,7 +11,7 @@ const movieModel = new Schema({
   disliked: { type: Boolean, default: false },
   position: { type: Number, default: 0 },
   // omdbapi movie props
-  imdbID: {type: String, unique: true},
+  imdbID: {type: String},
   Title: {type: String},
   Year: {type: String},
   Rated: {type: String},

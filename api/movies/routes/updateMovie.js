@@ -10,7 +10,7 @@ module.exports = {
     handler: (req, res) => {
       Movie.findOneAndUpdate({
         userId: req.params.userId,
-        movieId: req.payload.movieId
+        imdbID: req.payload.movieId
       },
       req.payload,
 

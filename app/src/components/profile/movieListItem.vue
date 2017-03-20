@@ -35,13 +35,13 @@
                   </span>
                   <span>Watched</span>
                 </a>
-                <a class="button is-small is-outlined">
+                <a class="button is-small is-outlined" @click="updateMovie('recommended')">
                   <span class="icon is-small">
                     <i class="fa fa-thumbs-o-up"></i>
                   </span>
                   <span>Recommend</span>
                 </a>
-                <a class="button is-small is-outlined">
+                <a class="button is-small is-outlined" @click="updateMovie('disliked')">
                   <span class="icon is-small">
                     <i class="fa fa-thumbs-o-down"></i>
                   </span>
@@ -53,12 +53,14 @@
                   </span>
                   <span>Remove</span>
                 </a>
+                <!--
                 <a class="button is-small is-outlined">
                   <span class="icon is-small">
                     <i class="fa fa-sort"></i>
                   </span>
                   <span>Sort</span>
                 </a>
+                -->
               </p>
             </div>
           </nav>
