@@ -18,6 +18,18 @@ const getters = {
   },
   MOVIES: state => {
     return state.userMovies;
+  },
+  MOVIE_LIST: state => {
+    let movieList = state.userMovies.filter((movie) => {
+      return !movie.watched
+    });
+    return movieList;
+  },
+  WATCHED_LIST: state => {
+    let watchedList = state.userMovies.filter((movie) => {
+      return movie.watched
+    });
+    return watchedList;
   }
 };
 
