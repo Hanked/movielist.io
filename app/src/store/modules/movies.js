@@ -128,12 +128,6 @@ const actions = {
     const token = localStorage.getItem('token');
     if (!token) { return }
 
-    console.log({
-      userId: userId,
-      token: token,
-      movieId: movieId
-    });
-
     Vue.http.delete(`http://localhost:3000/api/movies/${userId}/${movieId}`,
       {
         headers: {
