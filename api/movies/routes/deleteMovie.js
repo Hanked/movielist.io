@@ -5,12 +5,12 @@ const Movie = require('../model/Movie');
 
 module.exports = {
   method: 'DELETE',
-  path: '/api/movies/{userId}',
+  path: '/api/movies/{userId}/{movieId}',
   config: {
     handler: (req, res) => {
       Movie.find({
         userId: req.params.userId,
-        movieId: req.payload.movieId
+        imdbID: req.params.movieId
       })
       .remove()
       .exec((err, movie) => {

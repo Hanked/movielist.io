@@ -21,6 +21,7 @@ export default {
     this.$store.dispatch('INIT_USER');
     this.$store.dispatch('INIT_MEMBERS');
     this.$store.dispatch('INIT_FOLLOWS');
+    this.$store.dispatch('INIT_MOVIES');
   }
 }
 </script>
