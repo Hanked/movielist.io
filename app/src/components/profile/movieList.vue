@@ -17,10 +17,20 @@
         </ul>
       </div>
 
-      <div v-for="(movie, i) in this.activeTabData || userMovieList">
-        <movie-list-item
-          :movie="movie">
-        </movie-list-item>
+      <div v-show="this.activeTab == 0">
+        <div v-for="(movie, i) in userMovieList" v-show="[this.activeTab == 0]">
+          <movie-list-item
+            :movie="movie">
+          </movie-list-item>
+        </div>
+      </div>
+
+      <div v-if="this.activeTab == 1">
+        <div v-for="(movie, i) in userWatched">
+          <movie-list-item
+            :movie="movie">
+          </movie-list-item>
+        </div>
       </div>
 
     </div>
@@ -53,7 +63,7 @@ export default {
         }
       ],
       activeClass: "is-active",
-      activeTabData: ''
+      activeTab: 0
     }
   },
 
@@ -65,10 +75,7 @@ export default {
         if (i == index) {
           // make the tab active
           this.tabs[i].active = true;
-          // use the relevant getter to populate the list
-          let getter = 'user' + this.tabs[i].name.replace(/\s/g,'');
-          console.log(getter);
-          this.activeTabData = this[getter];
+          this.activeTab = i;
         } else {
           this.tabs[i].active = false;
         }
@@ -81,11 +88,9 @@ export default {
       return this.$store.getters.MOVIES;
     },
     userMovieList() {
-      console.log('userMovieList!')
       return this.$store.getters.MOVIE_LIST;
     },
     userWatched() {
-      console.log('userWatched!')
       return this.$store.getters.WATCHED_LIST;
     }
   }
