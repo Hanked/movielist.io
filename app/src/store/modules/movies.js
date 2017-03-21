@@ -18,6 +18,18 @@ const getters = {
   },
   MOVIES: state => {
     return state.userMovies;
+  },
+  MOVIE_LIST: state => {
+    let movieList = state.userMovies.filter((movie) => {
+      return !movie.watched
+    });
+    return movieList;
+  },
+  WATCHED_LIST: state => {
+    let watchedList = state.userMovies.filter((movie) => {
+      return movie.watched
+    });
+    return watchedList;
   }
 };
 
@@ -152,6 +164,11 @@ const actions = {
     bodyData.movieId = args.movieId;
     bodyData[args.type] = true;
 
+    // recommending or disliking a film should automatically set the movie to watched
+    if (args.type !== 'watched') {
+      bodyData.watched = true;
+    }
+
     Vue.http.patch(`http://localhost:3000/api/movies/${userId}`,
       bodyData,
       {
@@ -163,6 +180,10 @@ const actions = {
         commit('UPDATE_MOVIE', {
           movieId: args.movieId,
           type: args.type
+        });
+        commit('UPDATE_MOVIE', {
+          movieId: args.movieId,
+          type: 'watched'
         });
         console.log('movie updated');
       })
