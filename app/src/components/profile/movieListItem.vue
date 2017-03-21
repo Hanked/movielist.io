@@ -29,24 +29,34 @@
           <nav class="level">
             <div class="level-left">
               <p class="control has-addons">
-                <a class="button is-small is-outlined" @click="updateMovie('watched')">
+                <a
+                  class="button is-small is-outlined"
+                  @click="updateMovie('watched')"
+                  v-if="!movie.watched">
                   <span class="icon is-small">
                     <i class="fa fa-tv"></i>
                   </span>
                   <span>Watched</span>
                 </a>
-                <a class="button is-small is-outlined" @click="updateMovie('recommended')">
+                <a
+                  class="button is-small is-outlined"
+                  @click="updateMovie('recommended')"
+                  v-if="!movie.watched">
                   <span class="icon is-small">
                     <i class="fa fa-thumbs-o-up"></i>
                   </span>
                   <span>Recommend</span>
                 </a>
-                <a class="button is-small is-outlined" @click="updateMovie('disliked')">
+                <a
+                  class="button is-small is-outlined"
+                  @click="updateMovie('disliked')"
+                  v-if="!movie.watched">
                   <span class="icon is-small">
                     <i class="fa fa-thumbs-o-down"></i>
                   </span>
                   <span>Dislike</span>
                 </a>
+
                 <a class="button is-small is-outlined" @click="removeMovie">
                   <span class="icon is-small">
                     <i class="fa fa-remove"></i>
