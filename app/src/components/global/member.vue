@@ -26,14 +26,14 @@
             <ul class="card-stats-list">
               <li class="card-stats-item">
                 <a href="#">
-                  <span class="card-stats-key">Watched</span>
-                  <span class="card-stats-val">{{ counts.watched }}</span>
+                  <span class="card-stats-key">Movie list</span>
+                  <span class="card-stats-val">{{ movieListCount }}</span>
                 </a>
               </li>
               <li class="card-stats-item">
                 <a href="#">
-                  <span class="card-stats-key">Movie list</span>
-                  <span class="card-stats-val">{{ counts.unwatched }}</span>
+                  <span class="card-stats-key">Watched</span>
+                  <span class="card-stats-val">{{ watchedCount }}</span>
                 </a>
               </li>
               <li class="card-stats-item">
@@ -72,8 +72,6 @@ export default {
   data() {
     return {
       counts: {
-        watched: 0,
-        unwatched: 0,
         following: 0,
         followers: 0
       },
@@ -139,6 +137,13 @@ export default {
 
     followBtnValue() {
       return this.following ? 'Unfollow' : 'Follow';
+    },
+
+    movieListCount() {
+      return this.$store.getters.MOVIE_LIST.length;
+    },
+    watchedCount() {
+      return this.$store.getters.WATCHED_LIST.length;
     }
   }
 }
