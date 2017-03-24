@@ -6,6 +6,7 @@ const Schema = mongoose.Schema;
 const movieModel = new Schema({
   // movielist movie props
   userId: { type: String, required: true },
+  username: { type: String, required: true },
   watched: { type: Boolean, default: false },
   recommended: { type: Boolean, default: false },
   disliked: { type: Boolean, default: false },
