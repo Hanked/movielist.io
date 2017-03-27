@@ -29,7 +29,7 @@
 
 
             <div class="column is-6">
-              <add-movie></add-movie>
+              <add-movie v-if="this.isUser"></add-movie>
               <movie-list></movie-list>
             </div>
 
@@ -130,17 +130,28 @@ export default {
     MovieList
   },
 
-  data () {
+  data() {
     return {
-
+      isUser: true
     }
   },
 
   created() {
-    this.$store.dispatch('FETCH_MEMBER', this.$route.params.userId);
+    const urlUsername = this.$route.params.userId;
+    const sessionUsername = localStorage.getItem('username');
+
+    this.$store.dispatch('FETCH_MEMBER', urlUsername);
+
+    if (urlUsername !== sessionUsername) {
+      this.isUser = false;
+      this.$store.dispatch('FETCH_MEMBER_MOVIES', urlUsername);
+    }
   },
 
   computed: {
+    user() {
+      return this.$store.getters.USER;
+    },
     member() {
       return this.$store.getters.MEMBER;
     },
@@ -156,8 +167,3 @@ export default {
   }
 }
 </script>
-
-
-<style scoped>
-
-</style>

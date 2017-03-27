@@ -18,7 +18,7 @@
       </div>
 
       <div v-show="this.activeTab == 0">
-        <div v-for="(movie, i) in userMovieList" v-show="[this.activeTab == 0]">
+        <div v-for="(movie, i) in movieList" v-show="[this.activeTab == 0]">
           <movie-list-item
             :movie="movie">
           </movie-list-item>
@@ -26,7 +26,7 @@
       </div>
 
       <div v-if="this.activeTab == 1">
-        <div v-for="(movie, i) in userWatched">
+        <div v-for="(movie, i) in watched">
           <movie-list-item
             :movie="movie">
           </movie-list-item>
@@ -63,7 +63,20 @@ export default {
         }
       ],
       activeClass: "is-active",
-      activeTab: 0
+      activeTab: 0,
+      // this tell the computed properties which getter to use
+      getterPrefix: '',
+      isUser: true
+    }
+  },
+
+  created() {
+    const urlUsername = this.$route.params.userId;
+    const sessionUsername = localStorage.getItem('username');
+
+    if (urlUsername !== sessionUsername) {
+      this.isUser = false;
+      this.getterPrefix = 'MEMBER_';
     }
   },
 
@@ -85,13 +98,13 @@ export default {
 
   computed: {
     userMovies() {
-      return this.$store.getters.MOVIES;
+      return this.$store.getters[`${this.getterPrefix}MOVIES`];
     },
-    userMovieList() {
-      return this.$store.getters.MOVIE_LIST;
+    movieList() {
+      return this.$store.getters[`${this.getterPrefix}MOVIE_LIST`];
     },
-    userWatched() {
-      return this.$store.getters.WATCHED_LIST;
+    watched() {
+      return this.$store.getters[`${this.getterPrefix}WATCHED_LIST`];
     }
   }
 }

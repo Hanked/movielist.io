@@ -30,12 +30,30 @@ const getters = {
       return movie.watched
     });
     return watchedList;
+  },
+  MEMBER_MOVIES: state => {
+    return state.memberMovies;
+  },
+  MEMBER_MOVIE_LIST: state => {
+    let movieList = state.memberMovies.filter((movie) => {
+      return !movie.memberMovies
+    });
+    return movieList;
+  },
+  MEMBER_WATCHED_LIST: state => {
+    let watchedList = state.memberMovies.filter((movie) => {
+      return movie.watched
+    });
+    return watchedList;
   }
 };
 
 const mutations = {
   SET_MOVIES: (state, movies) => {
     state.userMovies = movies;
+  },
+  SET_MEMBER_MOVIES: (state, movies) => {
+    state.memberMovies = movies;
   },
   UPDATE_MOVIES: (state, movie) => {
     state.userMovies.push(movie);
@@ -57,15 +75,10 @@ const actions = {
   INIT_MOVIES: ({ commit, dispatch, rootState}) => {
     // console.log(rootState.user);
     const token = localStorage.getItem('token');
-    const userId = localStorage.getItem('userId');
+    const username = localStorage.getItem('username');
     if (!token) { return }
 
-    Vue.http.get(`http://localhost:3000/api/movies/${userId}`,
-      {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
+    Vue.http.get(`http://localhost:3000/api/movies/${username}`)
       .then(function(res) {
         commit('SET_MOVIES', res.body);
       })
@@ -74,8 +87,22 @@ const actions = {
       })
   },
 
+  FETCH_MEMBER_MOVIES: ({ commit, dispatch }, memberUsername) => {
+    console.log('FETCH_MEMBER_MOVIES', memberUsername);
+
+    Vue.http.get(`http://localhost:3000/api/movies/${memberUsername}`)
+      .then(function(res) {
+        console.log(res)
+        commit('SET_MEMBER_MOVIES', res.body);
+      })
+      .catch(function(res) {
+        console.log('failed to init movies');
+      })
+  },
+
   ADD_MOVIE: ({ commit, dispatch }, searchTerm) => {
     const userId = localStorage.getItem('userId');
+    const username = localStorage.getItem('username');
     if (!userId) { return }
 
     Vue.http.get(`http://www.omdbapi.com/?t=${searchTerm}&y=&plot=short&r=json`)
@@ -91,6 +118,7 @@ const actions = {
 
         const movie = res.body;
         movie.userId = userId;
+        movie.username = username;
         movie.watched = false;
         movie.recommended = false;
         movie.disliked = false;

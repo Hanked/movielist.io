@@ -60,6 +60,7 @@ const actions = {
       commit('SET_MEMBER', res.body);
       dispatch('FETCH_FOLLOWEES', res.body._id);
       dispatch('FETCH_FOLLOWERS', res.body._id);
+      // dispatch('FETCH_MEMBER_MOVIES', res.body._id);
     })
     .catch(function(res, err) {
       console.log('failed to fetch current user', res);
